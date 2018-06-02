@@ -4,8 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class hacker : MonoBehaviour {
+
+    // Game configuration data
+
+    string[] level1Passwords = {"police", "handcuffs", "siren", "jail", "detective", "doughnuts"};
+    string[] level2Passwords = { "kim", "nukes", "northkorea", "missile", "dmz", "lonely" };
+
+    // Game State
     string greeting = "Hello JP";
     int level;
+    string password = "";
 
     enum Screen { MainMenu, Password, Win};
     Screen currentScreen = Screen.Password;
@@ -48,14 +56,10 @@ public class hacker : MonoBehaviour {
 
     void RunMainMenu(string input)
     {
-        if (input == "1")
+        bool isValidLevelNumber = (input == "1" || input == "2");
+        if (isValidLevelNumber)
         {
-            level = 1;
-            StartGame();
-        }
-        else if (input == "2")
-        {
-            level = 2;
+            level = int.Parse(input);
             StartGame();
         }
         else if (input == "menu")
@@ -71,7 +75,30 @@ public class hacker : MonoBehaviour {
     void StartGame()
     {
         currentScreen = Screen.Password;
-        if (level == 1)
+        Terminal.ClearScreen();
+
+        switch(level)
+        {
+            case 1:
+                password = level1Passwords[2];
+                Terminal.WriteLine("Welcome to the ");
+                Terminal.WriteLine("Burbank Police Department.");
+                Terminal.WriteLine("Please enter your password:");
+                break;
+
+            case 2:
+                password = level2Passwords[2];
+                Terminal.WriteLine("Welcome to the DKPR.");
+                Terminal.WriteLine("Please enter your password:");
+                break;
+
+            default:
+                Debug.LogError("Invalid level number");
+                break;
+        }
+
+
+ /*       if (level == 1)
         {
             Terminal.WriteLine("Welcome to the ");
             Terminal.WriteLine("Burbank Police Department.");
@@ -82,18 +109,18 @@ public class hacker : MonoBehaviour {
             Terminal.WriteLine("Welcome to the DKPR.");
             Terminal.WriteLine("Please enter your password:");
         }
-
+*/
     }
 
-    void OnPasswordInput(string password)
+    void OnPasswordInput(string entry)
     {
-        if (level == 1 && password == "Donkey")
+        if (level == 1 && entry == password)
         {
-            Terminal.WriteLine("Welcome to the computer!");
+            Terminal.WriteLine("Welcome to the Police computer!");
         }
-        else if (level == 2 && password == "Kim")
+        else if (level == 2 && entry == password)
         {
-            Terminal.WriteLine("Welcome to the computer!");
+            Terminal.WriteLine("Welcome to the DKPR computer!");
         }
         else
         {
