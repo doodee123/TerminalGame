@@ -11,7 +11,7 @@ public class hacker : MonoBehaviour {
     string[] level2Passwords = { "kim", "nukes", "northkorea", "missile", "dmz", "lonely" };
 
     // Game State
-    string greeting = "Hello JP";
+    string greeting = "Hello";
     int level;
     string password = "";
 
@@ -60,7 +60,7 @@ public class hacker : MonoBehaviour {
         if (isValidLevelNumber)
         {
             level = int.Parse(input);
-            StartGame();
+            AskForPassword();
         }
         else if (input == "menu")
         {
@@ -72,15 +72,20 @@ public class hacker : MonoBehaviour {
         }
     }
 
-    void StartGame()
+    void AskForPassword()
     {
         currentScreen = Screen.Password;
         Terminal.ClearScreen();
+        GeneratePassword();
+        Terminal.WriteLine("Enter your password, hint:" + password.Anagram());
+    }
 
-        switch(level)
+    void GeneratePassword()
+    {
+        switch (level)
         {
             case 1:
-                password = level1Passwords[UnityEngine.Random.Range(0,level1Passwords.Length)];
+                password = level1Passwords[UnityEngine.Random.Range(0, level1Passwords.Length)];
                 Terminal.WriteLine("Welcome to the ");
                 Terminal.WriteLine("Burbank Police Department.");
                 Terminal.WriteLine("Please enter your password:");
@@ -96,20 +101,6 @@ public class hacker : MonoBehaviour {
                 Debug.LogError("Invalid level number");
                 break;
         }
-
-
- /*       if (level == 1)
-        {
-            Terminal.WriteLine("Welcome to the ");
-            Terminal.WriteLine("Burbank Police Department.");
-            Terminal.WriteLine("Please enter your password:");
-        }
-        else if (level == 2)
-        {
-            Terminal.WriteLine("Welcome to the DKPR.");
-            Terminal.WriteLine("Please enter your password:");
-        }
-*/
     }
 
     void OnPasswordInput(string entry)
@@ -120,7 +111,7 @@ public class hacker : MonoBehaviour {
         }
         else
         {
-            Terminal.WriteLine("Bad Password, Please try again.");
+            AskForPassword();
         }
     }
 
