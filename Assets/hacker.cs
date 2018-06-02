@@ -80,14 +80,14 @@ public class hacker : MonoBehaviour {
         switch(level)
         {
             case 1:
-                password = level1Passwords[2];
+                password = level1Passwords[UnityEngine.Random.Range(0,level1Passwords.Length)];
                 Terminal.WriteLine("Welcome to the ");
                 Terminal.WriteLine("Burbank Police Department.");
                 Terminal.WriteLine("Please enter your password:");
                 break;
 
             case 2:
-                password = level2Passwords[2];
+                password = level2Passwords[UnityEngine.Random.Range(0, level2Passwords.Length)];
                 Terminal.WriteLine("Welcome to the DKPR.");
                 Terminal.WriteLine("Please enter your password:");
                 break;
@@ -114,17 +114,60 @@ public class hacker : MonoBehaviour {
 
     void OnPasswordInput(string entry)
     {
-        if (level == 1 && entry == password)
+        if (entry == password)
         {
-            Terminal.WriteLine("Welcome to the Police computer!");
-        }
-        else if (level == 2 && entry == password)
-        {
-            Terminal.WriteLine("Welcome to the DKPR computer!");
+            DisplayWinScreen();
         }
         else
         {
             Terminal.WriteLine("Bad Password, Please try again.");
+        }
+    }
+
+    void DisplayWinScreen()
+    {
+        currentScreen = Screen.Win;
+        Terminal.ClearScreen();
+        ShowLevelReward();
+    }
+
+    void ShowLevelReward()
+    {
+        switch (level)
+        {
+            case 1:
+                Terminal.WriteLine(@"
+ _________________________
+     ||   ||, , ,||   ||
+     ||  (||/|/(\||/  ||
+     ||  ||| _'_`|||  ||
+     ||   || o o ||   ||
+     ||  (||  - `||)  ||
+     ||   ||  =  ||   ||
+     ||   ||\___/||   ||
+     ||___||) , (||___||
+    /||---||-\_/-||---||\
+   / ||--_||_____||_--|| \
+  (_(||)-| S123-45 |-(||)_)
+                            ");
+                Terminal.WriteLine("enter menu to return to main menu");
+                break;
+
+            case 2:
+                Terminal.WriteLine(@"
+        |
+       / \
+      / _ \
+     |.o '.|
+     |'._.'|
+   ,'|  |  |`.
+  /  |  |  |  \
+  |,-'--|--'-.| 
+
+                ");
+                Terminal.WriteLine("enter menu to return to main menu");
+                break;
+
         }
     }
 }
